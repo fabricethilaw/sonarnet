@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">SonarNet</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="get_connection_status">Check connectivity</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="live_connectivity_status">Live connectivity status</string>
+</resources>

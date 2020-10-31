@@ -24,6 +24,9 @@ package com.fabricethilaw.sonarnet
  */
 data class ConnectivityResult(val internetStatus: InternetStatus, val networkType: NetworkType)
 
+/**
+ *
+ */
 interface ConnectivityCallback {
     /**
      *

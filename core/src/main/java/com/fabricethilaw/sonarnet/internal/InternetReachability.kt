@@ -19,17 +19,14 @@ internal class InternetReachability : InternetReachabilityInterface {
 
     override fun ping(callback: InternetStatusCallback) {
         val url = GOOGLE_CONNECTIVITY_CHECK_URL
-        pingConnectivityCheckDestination(url, callback)
+        makeProbeRequest(url, callback)
     }
 
     /**
-     * Given a reliable destination url, sets up a connection and gets the HTTP response body from the server.
-     * If the network request is successful and it matches the expected http code or body response,
-     * then device is ONLINE, otherwise chances are you got redirected to the CAPTIVE portal.
-     * If request fails then your are not certainly OFFLINE.
+     * Send a simple http request to a url. The response is checked and returned as [InternetStatus]
      *
      */
-    private fun pingConnectivityCheckDestination(url: String, callback: InternetStatusCallback) {
+    private fun makeProbeRequest(url: String, callback: InternetStatusCallback) {
         val client = OkHttpClient()
 
         val request: Request = Request.Builder()

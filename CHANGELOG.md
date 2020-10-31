@@ -17,4 +17,4 @@ A few utility methods have been added for getting the active network type
 
 ### Added
 
-SonarNet is an Android framework which improves on ConnectivityManager by allowing developers to detect when true Internet access is available or whether the network has a captive portal that blocks internet traffic.
+SonarNet is an Android framework with networking implementations that allow developers to detect when true Internet access is available or whether the network has a captive portal that blocks internet traffic.

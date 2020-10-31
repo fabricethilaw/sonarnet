@@ -1,7 +1,10 @@
-package com.thilawfabrice.sonarnet.internal.interfaces
+package com.fabricethilaw.sonarnet.internal.interfaces
 
-import com.thilawfabrice.sonarnet.InternetAccessCallback
+import com.fabricethilaw.sonarnet.InternetStatusCallback
 
+/**
+ *
+ */
 internal interface InternetReachabilityInterface {
     /**
      * Sends a cookie-less request to a fast and reliable online resource,
@@ -12,5 +15,5 @@ internal interface InternetReachabilityInterface {
      * to check internet availability. It only verifies if a network connection has been made,
      * but does not check that device is connected to the internet.
      */
-    fun ping(callback: InternetAccessCallback)
+    fun ping(callback: InternetStatusCallback)
 }

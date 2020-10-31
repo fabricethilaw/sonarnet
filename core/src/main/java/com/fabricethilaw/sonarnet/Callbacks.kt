@@ -13,10 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.thilawfabrice.sonarnet
+package com.fabricethilaw.sonarnet
 
-data class ConnectivityResult(val internet: InternetAccess, val connectionType: ConnectionType)
+/**
+ * Wraps a result for a connectivity status request,
+ * which indicates the active network type and whether it has internet access or not.
+ * ConnectivityResult is sent through callbacks.
+ *
+ * @author Fabrice Thilaw (fabricethilaw)
+ */
+data class ConnectivityResult(val internetStatus: InternetStatus, val networkType: NetworkType)
 
-internal typealias ConnectivityCallback = (result: ConnectivityResult) -> Unit
-internal typealias InternetAccessCallback = (InternetAccess) -> Unit
+interface ConnectivityCallback {
+    /**
+     *
+     */
+    fun onConnectionChanged(result: ConnectivityResult)
+}
+
+/**
+ *
+ */
+internal typealias InternetStatusCallback = (result: InternetStatus) -> Unit
 

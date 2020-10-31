@@ -1,11 +1,14 @@
-package com.thilawfabrice.sonarnet.internal
+package com.fabricethilaw.sonarnet.internal
 
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import com.thilawfabrice.sonarnet.internal.interfaces.NetworkInfoInterface
+import com.fabricethilaw.sonarnet.internal.interfaces.NetworkInfoInterface
 
-class NetworkInfoResolver : NetworkInfoInterface {
+/**
+ *
+ */
+internal class NetworkInfoResolver : NetworkInfoInterface {
 
     override fun networkIsCellular(connectivityManager: ConnectivityManager): Boolean {
         return isMobileType(connectivityManager)

@@ -1,16 +1,19 @@
-package com.thilawfabrice.sonarnet.internal
+package com.fabricethilaw.sonarnet.internal
 
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
-import com.thilawfabrice.sonarnet.ConnectionType
-import com.thilawfabrice.sonarnet.ConnectivityCallback
-import com.thilawfabrice.sonarnet.ConnectivityResult
-import com.thilawfabrice.sonarnet.internal.interfaces.InternetReachabilityInterface
-import com.thilawfabrice.sonarnet.internal.interfaces.NetworkInfoInterface
+import com.fabricethilaw.sonarnet.ConnectivityCallback
+import com.fabricethilaw.sonarnet.ConnectivityResult
+import com.fabricethilaw.sonarnet.NetworkType
+import com.fabricethilaw.sonarnet.internal.interfaces.InternetReachabilityInterface
+import com.fabricethilaw.sonarnet.internal.interfaces.NetworkInfoInterface
 
+/**
+ *
+ */
 internal class NetworkStateWatcher private constructor(
     private val context: Context,
     private val resolveNetworkInfo: NetworkInfoInterface,
@@ -21,7 +24,7 @@ internal class NetworkStateWatcher private constructor(
     private var networkNotificationIsEnabled = false
 
     @Volatile
-    private lateinit var callback: (result: ConnectivityResult) -> Unit
+    private lateinit var callback: ConnectivityCallback
 
     private val cm: ConnectivityManager by lazy {
         context.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE)
@@ -32,7 +35,7 @@ internal class NetworkStateWatcher private constructor(
      * Stars to listen to any network changes on device to check the current network the device is connected to.
      * And also verify whether you're offline.
      */
-    fun startWatching(callback: (result: ConnectivityResult) -> Unit) {
+    fun startWatching(callback: ConnectivityCallback) {
 
         if (!networkNotificationIsEnabled) {
             val networkRequest = NetworkRequest.Builder().build()
@@ -45,6 +48,28 @@ internal class NetworkStateWatcher private constructor(
         }
 
     }
+
+    /**
+     * Returns true if active network is WiFi
+     */
+    fun connectedViaWiFi(): Boolean {
+        return resolveNetworkInfo.networkIsWifi(cm)
+    }
+
+    /**
+     * Return true if active network is cellular
+     */
+    fun connectedViaCellular(): Boolean {
+        return resolveNetworkInfo.networkIsCellular(cm)
+    }
+
+    /**
+     * Return true if active network is cellular
+     */
+    fun connectedViaEthernet(): Boolean {
+        return resolveNetworkInfo.networkIsEthernet(cm)
+    }
+
 
     /**
      * Stop checking network changes on device
@@ -83,11 +108,11 @@ internal class NetworkStateWatcher private constructor(
 
     private fun updateConnectivityResult() {
         if (networkNotificationIsEnabled) {
-            provideConnectivityResult { result ->
-                if (this::callback.isInitialized) {
-                    callback(result)
-                }
+
+            if (this::callback.isInitialized) {
+                provideConnectivityResult(callback)
             }
+
         }
     }
 
@@ -95,19 +120,25 @@ internal class NetworkStateWatcher private constructor(
 
         /* network status */
         val connectionType =
-            when {
-                resolveNetworkInfo.networkIsCellular(cm) -> ConnectionType.Cellular
-                resolveNetworkInfo.networkIsWifi(cm) -> ConnectionType.Wifi
-                resolveNetworkInfo.networkIsEthernet(cm) -> ConnectionType.Ethernet
-                else -> ConnectionType.Unknown
-            }
+            getConnectionType()
 
         if (this::callback.isInitialized) {
+
             reachability.ping { internetAccess ->
-                callback(ConnectivityResult(internetAccess, connectionType))
+                callback.onConnectionChanged(ConnectivityResult(internetAccess, connectionType))
             }
         }
     }
+
+    private fun getConnectionType(): NetworkType {
+        return when {
+            resolveNetworkInfo.networkIsCellular(cm) -> NetworkType.Cellular
+            resolveNetworkInfo.networkIsWifi(cm) -> NetworkType.Wifi
+            resolveNetworkInfo.networkIsEthernet(cm) -> NetworkType.Ethernet
+            else -> NetworkType.Unknown
+        }
+    }
+
 
     companion object {
 

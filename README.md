@@ -28,7 +28,7 @@ Add this to your module's `build.gradle` file:
 
 ```gradle
 dependencies {
-
+  
   implementation 'com.fabricethilaw.sonarnet:core:0.0.2'
 }
 ```
@@ -40,7 +40,7 @@ SonarNet allows for Internet connectivity verification within any class.
 ```
 // Detect that INTERNET is available, sending the result to a callback
 SonarNet.ping { result ->
-    // Check the result, for further actions
+    
     when(result) {
         InternetStatus.INTERNET -> {}
         InternetStatus.NO_INTERNET -> {}

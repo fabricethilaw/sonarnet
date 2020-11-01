@@ -8,7 +8,7 @@ An open-source Android library providing a reliable, easy-to-use way to dete
 
 - SonarNet is primarily built in Kotlin
 
-- Inckudes a third-party dependency : [OkHttp](https://github.com/square/okhttp),
+- Includes a third-party dependency : [OkHttp](https://github.com/square/okhttp),
 
 - Unit tests for the core functionalities are coming very soon.
 
@@ -22,7 +22,7 @@ An open-source Android library providing a reliable, easy-to-use way to dete
 
 The classic ConnectivityManager's methods tell whether there is a network interface capable to *allow for Intrernet access*. But it is not enough to make sure of true Internet access when connected to a network. SonarNet's aim to solve this.
 
-SonarNet wraps the ConnectivityManager and seeks to let your app replicate the Android OS means of detecting Internet and captive portals. So, when ConnectivityManager detects Wi-Fi or Cellular network, SonarNet uses a cleartext HTTP probe to a known URL (such as `connectivitycheck.gstatic.com`), to detect whether there is true Internet access, or whether a captive portal is intercepting the connections.
+SonarNet wraps the ConnectivityManager and seeks to let your app replicate the Android OS means of detecting Internet network. So, when ConnectivityManager detects Wi-Fi or Cellular network, SonarNet uses a cleartext HTTP probe to a known URL (such as `connectivitycheck.gstatic.com`), to detect whether there is true Internet access, or whether a captive portal is intercepting the connections.
 
 # Usage
 
@@ -87,6 +87,6 @@ When you no longer want to receive updates on connectivity events :
 
 `ConnectivityResult` is provided in network notification callbacks. It has a few useful fields :
 
-- `internetStatus` field can be one of : `INTERNET`, `NO_INTERNET`, `CAPTIVE_PORTAL`
+- `internetStatus` value can be one of : `INTERNET`, `NO_INTERNET`, `CAPTIVE_PORTAL`
 
-- `networkType` field can be one of : `Cellular`, `Wifi`, `Ethernet`, `Unknown`
+- `networkType` value can be one of : `Cellular`, `Wifi`, `Ethernet`, `Unknown`

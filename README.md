@@ -37,7 +37,7 @@ dependencies {
 
 ## Check Internet status
 
-SonarNet allows for Internet connectivity verification within any class.
+Usable in any class.
 
 ```
 // Detect that INTERNET is available

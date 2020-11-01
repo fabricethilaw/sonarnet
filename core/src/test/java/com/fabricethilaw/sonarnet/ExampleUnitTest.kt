@@ -1,4 +1,4 @@
-package com.thilawfabrice.sonarnet
+package com.fabricethilaw.sonarnet
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

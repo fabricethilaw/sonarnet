@@ -23,10 +23,6 @@ internal class NetworkInfoResolver : NetworkInfoInterface {
     }
 
 
-    /**
-     * Returns true if active network is over cellular transport
-     * @param connectivityManager
-     */
     private fun isMobileType(connectivityManager: ConnectivityManager): Boolean {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -42,10 +38,6 @@ internal class NetworkInfoResolver : NetworkInfoInterface {
         }
     }
 
-    /**
-     * Returns true if this network is Wi-Fi
-     * @param connectivityManager
-     */
     private fun isWifiType(connectivityManager: ConnectivityManager): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
@@ -64,10 +56,6 @@ internal class NetworkInfoResolver : NetworkInfoInterface {
 
     }
 
-    /**
-     * Returns true if this network is Ethernet
-     * @param connectivityManager
-     */
     private fun isEthernet(connectivityManager: ConnectivityManager): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 

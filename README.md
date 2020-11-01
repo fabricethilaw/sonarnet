@@ -4,13 +4,15 @@
 
 An open-source Android library providing a reliable, easy-to-use way to detect Internet access and captive portals on connected devices.
 
+<img src="https://github.com/fabricethilaw/sonarnet/blob/master/showcase.png" width="750" />
+
 ## Technology stack
 
 - SonarNet is primarily built in Kotlin
 
 - Includes a third-party dependency : [OkHttp](https://github.com/square/okhttp),
 
-- Unit tests for the core functionalities are coming very soon.
+- Unit tests coming very soon.
 
 ## Features
 

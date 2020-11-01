@@ -2,7 +2,7 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/99c6454342b44241b7b2abb6a70647b0)](https://app.codacy.com/gh/fabricethilaw/sonarnet?utm_source=github.com&utm_medium=referral&utm_content=fabricethilaw/sonarnet&utm_campaign=Badge_Grade)
 
-An open-source Android library providing a better implemention of Internet access and captive portals detection in your apps.
+An open-source Android library providing a better implementation of Internet access and captive portals detection in your apps.
 
 <img src="https://github.com/fabricethilaw/sonarnet/blob/master/showcase.png" width="750" />
 

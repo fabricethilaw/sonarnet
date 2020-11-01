@@ -22,10 +22,7 @@ internal class InternetReachability : InternetReachabilityInterface {
         makeProbeRequest(url, callback)
     }
 
-    /**
-     * Send a simple http request to a url. The response is checked and returned as [InternetStatus]
-     *
-     */
+
     private fun makeProbeRequest(url: String, callback: InternetStatusCallback) {
         val client = OkHttpClient()
 

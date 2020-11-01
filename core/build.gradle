@@ -54,10 +54,10 @@ ext {
 
     // Library Details
     publishedGroupId = 'com.fabricethilaw.sonarnet'
-    libraryName = 'core'
-    artifact = 'sonarnet'
+    libraryName = 'sonarnet'
+    artifact = 'core'
     libraryDescription = '🌐 Improves on Android connectivity framework by providing awareness of Internet access and captive portals on top of ConnectivityManager.'
-    libraryVersion = '0.0.3'
+    libraryVersion = '0.0.2'
 
     // Repository Link (For e.g. GitHub repo)
     siteUrl = 'https://github.com/fabricethilaw/sonarnet'

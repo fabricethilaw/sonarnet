@@ -77,7 +77,6 @@ class MainActivity : AppCompatActivity() {
                 // register the callback
                 SonarNet.with(this).registerConnectivityCallback(connectivityCallback)
 
-
                 // update button 's text
                 toggleButton.text = getString(R.string.stop)
             } else {

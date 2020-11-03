@@ -1,6 +1,8 @@
 # SonarNet
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/99c6454342b44241b7b2abb6a70647b0)](https://app.codacy.com/gh/fabricethilaw/sonarnet?utm_source=github.com&utm_medium=referral&utm_content=fabricethilaw/sonarnet&utm_campaign=Badge_Grade)
+[ ![Download](https://api.bintray.com/packages/fabricethilaw/sonarnet/sonarnet/images/download.svg?version=0.0.2) ](https://bintray.com/fabricethilaw/sonarnet/sonarnet/0.0.2/link)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 An open-source Android library providing a better implementation of Internet access and captive portals detection in your apps.
 
@@ -92,3 +94,9 @@ When you no longer want to receive updates on connectivity events :
 - `internetStatus` value can be one of : `INTERNET`, `NO_INTERNET`, `CAPTIVE_PORTAL`
 
 - `networkType` value can be one of : `Cellular`, `Wifi`, `Ethernet`, `Unknown`
+
+## Network types
+
+You may also use the following methods if you are only interested in some types of networks :
+
+``connectedViaWiFi()``, ``connectedViaCellular()``, ``connectedViaEthernet()``

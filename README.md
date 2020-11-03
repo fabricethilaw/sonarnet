@@ -1,6 +1,7 @@
 # SonarNet
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/99c6454342b44241b7b2abb6a70647b0)](https://app.codacy.com/gh/fabricethilaw/sonarnet?utm_source=github.com&utm_medium=referral&utm_content=fabricethilaw/sonarnet&utm_campaign=Badge_Grade)
+[![Maintainability](https://api.codeclimate.com/v1/badges/8c44053197903e4669af/maintainability)](https://codeclimate.com/github/fabricethilaw/sonarnet/maintainability)
 [ ![Download](https://api.bintray.com/packages/fabricethilaw/sonarnet/sonarnet/images/download.svg?version=0.0.3) ](https://bintray.com/fabricethilaw/sonarnet/sonarnet/0.0.3/link)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 

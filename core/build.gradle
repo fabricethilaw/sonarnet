@@ -57,7 +57,7 @@ ext {
     libraryName = 'sonarnet'
     artifact = 'core'
     libraryDescription = '🌐 Improves on Android connectivity framework by providing awareness of Internet access and captive portals on top of ConnectivityManager.'
-    libraryVersion = '0.0.2'
+    libraryVersion = '0.0.3'
 
     // Repository Link (For e.g. GitHub repo)
     siteUrl = 'https://github.com/fabricethilaw/sonarnet'

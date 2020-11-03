@@ -41,17 +41,20 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun checkInternet(dialog: AlertDialog.Builder) {
-
+        var message: String
         SonarNet.ping { result ->
-            when (result) {
+            message = when (result) {
                 InternetStatus.INTERNET -> {
+                    "Device is connected to Internet"
                 }
                 InternetStatus.NO_INTERNET -> {
+                    "Device is not connected to Internet"
                 }
                 InternetStatus.CAPTIVE_PORTAL -> {
+                    "A captive portal might be on the network"
                 }
             }
-            val message = "Device is connected with $result"
+
             Handler(Looper.getMainLooper()).post { dialog.setMessage(message).show() }
         }
     }
@@ -59,7 +62,7 @@ class MainActivity : AppCompatActivity() {
     private fun showConnectivityState(state: ConnectivityResult) {
         Handler(Looper.getMainLooper()).post {
             val message =
-                "Device is ${state.internetStatus} over ${state.networkType} network"
+                "${state.internetStatus} on ${state.networkType} network"
             Snackbar.make(main, message, Snackbar.LENGTH_LONG).show()
         }
     }

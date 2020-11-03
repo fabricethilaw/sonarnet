@@ -14,7 +14,7 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 2
+        versionCode 3
         versionName "0.0.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -35,9 +35,9 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.3.2'
 
     // Square’s meticulous HTTP client for the JVM and Android
-    implementation 'com.squareup.okhttp3:okhttp:4.8.1'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
 
 }
@@ -57,7 +57,7 @@ ext {
     libraryName = 'sonarnet'
     artifact = 'core'
     libraryDescription = '🌐 Improves on Android connectivity framework by providing awareness of Internet access and captive portals on top of ConnectivityManager.'
-    libraryVersion = '0.0.2'
+    libraryVersion = '0.0.3'
 
     // Repository Link (For e.g. GitHub repo)
     siteUrl = 'https://github.com/fabricethilaw/sonarnet'

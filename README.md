@@ -35,7 +35,7 @@ Add this to your module's `build.gradle` file:
 ```gradle
 dependencies {
   
-  implementation 'com.fabricethilaw.sonarnet:core:0.0.2'
+  implementation 'com.fabricethilaw.sonarnet:core:0.0.3'
 }
 ```
 

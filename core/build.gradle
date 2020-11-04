@@ -47,7 +47,7 @@ dependencies {
 // Bintray config
 ext {
     // This should be same as you've created in bintray
-    bintrayRepo = 'maven'
+    bintrayRepo = 'sonarnet'
 
     // Name which will be visible on bintray
     bintrayName = 'sonarnet:core'

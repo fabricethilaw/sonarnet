@@ -50,7 +50,7 @@ ext {
     bintrayRepo = 'sonarnet'
 
     // Name which will be visible on bintray
-    bintrayName = 'sonarnet'
+    bintrayName = 'sonarnet:core'
 
     // Library Details
     publishedGroupId = 'com.fabricethilaw.sonarnet'

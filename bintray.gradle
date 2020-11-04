@@ -32,7 +32,7 @@ bintray {
 
     pkg {
         repo = 'sonarnet'
-        name = 'com.fabricethilaw.sonarnet'
+        name = 'com.fabricethilaw.sonarnet:core'
         configurations = ['archives']
         desc = 'A very simple solution to Android connectivity detection.'
         websiteUrl = 'https://github.com/fabricethilaw/sonarnet'

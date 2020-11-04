@@ -47,14 +47,14 @@ dependencies {
 // Bintray config
 ext {
     // This should be same as you've created in bintray
-    bintrayRepo = 'sonarnet'
+    bintrayRepo = 'maven'
 
     // Name which will be visible on bintray
     bintrayName = 'sonarnet:core'
 
     // Library Details
     publishedGroupId = 'com.fabricethilaw.sonarnet'
-    libraryName = 'sonarnet'
+    libraryName = 'sonarnet:core'
     artifact = 'core'
     libraryDescription = '🌐 Improves on Android connectivity framework by providing awareness of Internet access and captive portals on top of ConnectivityManager.'
     libraryVersion = '0.0.3'

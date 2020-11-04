@@ -31,9 +31,21 @@ SonarNet wraps the ConnectivityManager and seeks to let your app replicate the A
 
 # Usage
 
+Add this to your project's build.gradle file :
+
+```
+ repositories {
+        
+        jcenter()
+        maven {
+            url  "https://dl.bintray.com/fabricethilaw/sonarnet"
+        }
+    }
+```
+
 Add this to your module's `build.gradle` file:
 
-```gradle
+ ```
 dependencies {
   
   implementation 'com.fabricethilaw.sonarnet:core:0.0.3'

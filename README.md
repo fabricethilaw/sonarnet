@@ -36,7 +36,6 @@ Add this to your project's build.gradle file :
 ```
  repositories {
         
-        jcenter()
         maven {
             url  "https://dl.bintray.com/fabricethilaw/sonarnet"
         }

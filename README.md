@@ -33,29 +33,31 @@ SonarNet wraps the ConnectivityManager and seeks to let your app replicate the A
 
 Add this to your project's build.gradle file :
 
-```
+```gradle
  repositories {
         
         maven {
             url  "https://dl.bintray.com/fabricethilaw/sonarnet"
         }
     }
+    
 ```
 
 Add this to your module's `build.gradle` file:
 
- ```
+ ```gradle
 dependencies {
   
   implementation 'com.fabricethilaw.sonarnet:core:0.0.3'
 }
+
 ```
 
 ## Check Internet status
 
 Usable in any class.
 
-```
+```kotlin
 // Detect that INTERNET is available
 SonarNet.ping { result ->
     // check result
@@ -65,13 +67,16 @@ SonarNet.ping { result ->
         InternetStatus.CAPTIVE_PORTAL -> {}
         }
 }
+
 ```
 
 **Note**: In order to perform network operations, the following permissions must be added into your application `AndroidManifest.xml` :
 
-```<uses-permission
+```xml
+<uses-permission
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
 ```
 
 ## Notifications
@@ -80,7 +85,7 @@ If you prefer receiving notifications about changes in connectivity , you would 
 
 A notification from ConnectivityCallback provides knowledge about `InternetStatus` and the connected `NetworkType`
 
-```
+```kotlin
 // Set a connectivity callback
  val connectivityCallback = object : ConnectivityCallback {
       override fun onConnectionChanged(result: ConnectivityResult) {
@@ -90,13 +95,15 @@ A notification from ConnectivityCallback provides knowledge about `InternetStatu
 
   // register the callback
  SonarNet.with(context).registerConnectivityCallback(connectivityCallback)
+ 
 ```
 
 When you no longer want to receive updates on connectivity events :
 
-```
+```kotlin
 // unregister the callback
  SonarNet.with(context).unregisterConnectivityCallback()
+
 ```
 
 ## Using results

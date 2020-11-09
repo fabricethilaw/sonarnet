@@ -15,8 +15,6 @@ An open-source Android library providing a better implementation of Internet�
 
 - Compatible with Android 5.0+ (API level >= 21)
 
-- Unit tests coming very soon.
-
 ## Features
 
 - [x] Detect when device has joined a network that has no Internet access.

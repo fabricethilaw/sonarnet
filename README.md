@@ -113,6 +113,6 @@ When you no longer want to receive updates on connectivity events :
 
 ## Network types
 
-You may also use the following methods if you are only interested in some types of networks :
+You may also use the following methods if you are only interested in checking the type of connected network :
 
 ``connectedViaWiFi()``, ``connectedViaCellular()``, ``connectedViaEthernet()``

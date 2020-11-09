@@ -23,7 +23,7 @@ An open-source Android library providing a better implementation of Internet�
 
 ## How it works
 
-The classic ConnectivityManager's methods tell whether there is a network interface capable to *allow for Intrernet access*. But generally this is not enough to guarantee make sure of true Internet access when connected to a network. SonarNet's goal is to solve this.
+The classic ConnectivityManager's methods tell whether there is a network interface capable to *allow for Intrernet access*. But generally this is not enough to guarantee that there is true Internet access when connected to a network. SonarNet's goal is to solve this.
 
 SonarNet wraps the ConnectivityManager and seeks to let your app replicate the Android OS means of detecting Internet network. So, when ConnectivityManager detects Wi-Fi or Cellular network, SonarNet uses a cleartext HTTP probe to a known URL (such as `connectivitycheck.gstatic.com`), to detect whether there is true Internet access, or whether a captive portal is intercepting the connections.
 

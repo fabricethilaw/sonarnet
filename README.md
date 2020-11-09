@@ -73,7 +73,6 @@ SonarNet.ping { result ->
 **Note**: In order to perform network operations, the following permissions must be added into your application `AndroidManifest.xml` :
 
 ```xml
-<uses-permission
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 

@@ -4,11 +4,9 @@
 > feature request, you are agreeing to comply with this waiver of copyright interest.
 > Details can be found in our [LICENSE](LICENSE).
 
-
 There are two primary ways to help:
- - Using the issue tracker, and
- - Changing the code-base.
-
+ * Using the issue tracker, and
+ * Changing the code-base.
 
 ## Using the issue tracker
 
@@ -19,7 +17,6 @@ as others who are interested in this solution.
 Use the issue tracker to find ways to contribute. Find a bug or a feature, mention in
 the issue that you will take on that effort, then follow the _Changing the code-base_
 guidance below.
-
 
 ## Changing the code-base
 

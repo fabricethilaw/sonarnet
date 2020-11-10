@@ -27,7 +27,7 @@ The classic ConnectivityManager's methods tell whether there is a network interf
 
 SonarNet wraps the ConnectivityManager and seeks to let your app replicate the Android OS means of detecting Internet network. So, when ConnectivityManager detects Wi-Fi or Cellular network, SonarNet uses a cleartext HTTP probe to a known URL (such as `connectivitycheck.gstatic.com`), to detect whether there is true Internet access, or whether a captive portal is intercepting the connections.
 
-# Usage
+## Usage
 
 Add this to your project's build.gradle file :
 
@@ -116,3 +116,17 @@ When you no longer want to receive updates on connectivity events :
 You may also use the following methods if you are only interested in checking the type of connected network :
 
 ``connectedViaWiFi()``, ``connectedViaCellular()``, ``connectedViaEthernet()``
+
+## Getting help
+
+If you have questions, concerns, bug reports, etc, please file an issue in this repository's Issue Tracker.
+
+## Getting involved
+
+You have checked this library out.
+
+- Did you find a bug ? 
+- Did you write a patch that fixes a bug?
+- Do you intend to add a new feature or change an existing one?
+
+We encourage you to read the instructions on how to contribute, stated in [CONTRIBUTING](CONTRIBUTING.md).

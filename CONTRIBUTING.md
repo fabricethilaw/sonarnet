@@ -4,7 +4,8 @@
 > feature request, you are agreeing to comply with this waiver of copyright interest.
 > Details can be found in our [LICENSE](LICENSE).
 
-There are two primary ways to help:
+There are two primary ways to help :
+
  * Using the issue tracker, and
  * Changing the code-base.
 

@@ -1,4 +1,4 @@
-# SonarNet
+# SonarNet - [Migrating from Jcenter to Github releases]
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/99c6454342b44241b7b2abb6a70647b0)](https://app.codacy.com/gh/fabricethilaw/sonarnet?utm_source=github.com&utm_medium=referral&utm_content=fabricethilaw/sonarnet&utm_campaign=Badge_Grade)
 [![Maintainability](https://api.codeclimate.com/v1/badges/8c44053197903e4669af/maintainability)](https://codeclimate.com/github/fabricethilaw/sonarnet/maintainability)

@@ -1,21 +1,18 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'maven-publish'
 
-
-// Bintray
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    compileSdkVersion 31
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 3
-        versionName "0.0.2"
+        versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -32,88 +29,49 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.core:core-ktx:1.7.0'
 
-    // Square’s meticulous HTTP client for the JVM and Android
-    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
-
-    testImplementation 'junit:junit:4.13.1'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
 
 }
 
 
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
 
-// Bintray config
-ext {
-    // This should be same as you've created in bintray
-    bintrayRepo = 'sonarnet'
+                groupId 'com.fabricethilaw.sonarnet'
+                artifactId 'sonarnet'
+                version '1.0.0'
+            }
 
-    // Name which will be visible on bintray
-    bintrayName = 'sonarnet:core'
+            debug(MavenPublication) {
+                from components.debug
 
-    // Library Details
-    publishedGroupId = 'com.fabricethilaw.sonarnet'
-    libraryName = 'sonarnet:core'
-    artifact = 'core'
-    libraryDescription = '🌐 Improves on Android connectivity framework by providing awareness of Internet access and captive portals on top of ConnectivityManager.'
-    libraryVersion = '0.0.3'
+                groupId 'com.fabricethilaw.sonarnet'
+                artifactId 'sonarnet'
+                version '1.0.0'
+            }
+        }
 
-    // Repository Link (For e.g. GitHub repo)
-    siteUrl = 'https://github.com/fabricethilaw/sonarnet'
-    gitUrl = 'https://github.com/fabricethilaw/sonarnet.git'
-    githubRepository = 'fabricethilaw/sonarnet'
+        repositories {
+            maven {
+                name = "GitHubPackages"
 
-    // Developer Details
-    developerId = 'fabricethilaw'
-    developerName = 'Fabrice Thilaw'
-    developerEmail = 'fabricethilaw@gmail.com'
+                url = uri("https://maven.pkg.github.com/fabricethilaw/sonarnet")
 
-    // License Details
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
-}
-
-// This is mandatory
-group = publishedGroupId
-version = libraryVersion
-
-install {
-    repositories.mavenInstaller {
-        // This generates POM.xml with proper parameters
-        pom {
-            project {
-                packaging 'aar'
-
-                groupId publishedGroupId
-                artifactId = artifact
-                name libraryName
-                description = libraryDescription
-                url siteUrl
-
-                licenses {
-                    license {
-                        name licenseName
-                        url licenseUrl
-                    }
-                }
-                developers {
-                    developer {
-                        id developerId
-                        name developerName
-                        email developerEmail
-                    }
-                }
-                scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
+                credentials {
+                    username = System.getenv("GITHUB_USERNAME")
+                    password = System.getenv("GITHUB_TOKEN")
                 }
             }
         }
     }
 }
+
 
 // Avoid Kotlin docs error
 tasks.withType(Javadoc) {
@@ -139,20 +97,4 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 artifacts {
     archives javadocJar
     archives sourcesJar
-}
-
-// https://github.com/bintray/gradle-bintray-plugin
-bintray {
-    user = System.getenv("bintrayUser")
-    key = System.getenv("bintrayApiKey")
-
-    configurations = ['archives']
-    pkg {
-        repo = bintrayRepo
-        name = bintrayName
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        licenses = allLicenses
-        publish = true
-    }
 }

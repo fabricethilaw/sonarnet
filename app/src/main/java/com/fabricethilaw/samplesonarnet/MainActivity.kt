@@ -42,6 +42,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkInternet(dialog: AlertDialog.Builder) {
         var message: String
+        /*SonarNet.runWithInternet {
+            Handler(Looper.getMainLooper()).post {
+                dialog.setMessage("Device is connected to Internet").show()
+            }
+        }*/
+
         SonarNet.ping { result ->
             message = when (result) {
                 InternetStatus.INTERNET -> {
@@ -55,7 +61,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            Handler(Looper.getMainLooper()).post { dialog.setMessage(message).show() }
+            Handler(Looper.getMainLooper()).post {
+                dialog.setMessage(message).show()
+            }
         }
     }
 
@@ -68,6 +76,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun toggleLiveConnectivity(toggleButton: Button) {
+        val sonarNet = SonarNet(this)
         toggleButton.text.let {
             if (it == getString(R.string.start)) {
 
@@ -78,13 +87,13 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 // register the callback
-                SonarNet.with(this).registerConnectivityCallback(connectivityCallback)
+                sonarNet.registerConnectivityCallback(connectivityCallback)
 
                 // update button 's text
                 toggleButton.text = getString(R.string.stop)
             } else {
                 // Disable live checking
-                SonarNet.with(this).unregisterConnectivityCallback()
+                sonarNet.unregisterConnectivityCallback()
                 // update button 's text
                 toggleButton.text = getString(R.string.start)
 

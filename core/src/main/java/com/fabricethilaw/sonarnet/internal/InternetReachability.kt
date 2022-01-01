@@ -6,9 +6,17 @@ import com.fabricethilaw.sonarnet.InternetStatus
 import com.fabricethilaw.sonarnet.InternetStatus.*
 import com.fabricethilaw.sonarnet.InternetStatusCallback
 import com.fabricethilaw.sonarnet.internal.interfaces.InternetReachabilityInterface
-import okhttp3.*
-import java.io.IOException
-import java.net.HttpURLConnection.HTTP_NO_CONTENT
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Default
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.net.HttpURLConnection
+import java.net.URL
+import javax.net.ssl.HttpsURLConnection
+
 
 /**
  *  Implementation that provides the actual availability of Internet on device
@@ -16,66 +24,59 @@ import java.net.HttpURLConnection.HTTP_NO_CONTENT
 internal class InternetReachability : InternetReachabilityInterface {
 
     override fun ping(callback: InternetStatusCallback) {
-        val url = GOOGLE_CONNECTIVITY_CHECK_URL
-        makeProbeRequest(url, callback)
-    }
-
-
-    private fun makeProbeRequest(url: String, callback: InternetStatusCallback) {
-        val client = OkHttpClient()
-
-        val request: Request = buildRequest(url)
-
-        // The Google connectivity check url
-        // returns HTTP code 204
-        val expectedHttpCode: Int = HTTP_NO_CONTENT
-
-        try {
-            client.newCall(request).enqueue(requestCallback(callback, expectedHttpCode))
-        } catch (e: Exception) {
-            // we just catch any exception that may occurs
+        CoroutineScope(IO).launch {
+          callback.invoke( makeProbeRequest())
         }
+
     }
 
-    private fun buildRequest(url: String): Request {
-        return Request.Builder()
-            .url(url)
-            .get()
-            .addHeader("content-type", "application/json")
-            .addHeader("cache-control", "no-cache")
-            .build()
+    override suspend fun ping(): InternetStatus {
+        return (makeProbeRequest())
+
+    }
+
+
+     suspend fun makeProbeRequest(): InternetStatus {
+        val url = GOOGLE_CONNECTIVITY_CHECK_URL
+        return withContext(IO) {
+            try {
+                val httpConnection = if (url.startsWith("https", true)) {
+                    URL(url).openConnection() as HttpsURLConnection
+                } else URL(url).openConnection() as HttpURLConnection
+                httpConnection.requestMethod = "GET"
+                httpConnection.connectTimeout = 2000
+                httpConnection.useCaches = false
+                httpConnection.setRequestProperty("Content-Type", "application/json; utf-8")
+                httpConnection.connect(); //connect
+                val responseLength: Int = httpConnection.contentLength;
+                val responseCode = httpConnection.responseCode //this is http(s) response code
+                Log.i("Sonarnet", "Response Code : $responseCode");
+                httpConnection.disconnect()
+                resolveProbeResult(responseLength, responseCode)
+            } catch (e: java.lang.Exception) {
+                NO_INTERNET
+            }
+
+        }
     }
 
     private fun resolveProbeResult(
-        response: Response,
-        expectedHttpCode: Int
+        responseLength: Int,
+        httpCode: Int
     ): InternetStatus {
-        return if (response.isSuccessful && response.code == expectedHttpCode) {
+        //GOOGLE_CONNECTIVITY_CHECK_URL is expected to return HTTP 204
+        // with no content as a response
+        return if (httpCode == 204 && responseLength == 0
+        ) {
             INTERNET
         } else {
-            CAPTIVE_PORTAL // connection might be intercepted
+            //the request would have been intercepted
+            CAPTIVE_PORTAL
         }
     }
 
-    private fun requestCallback(
-        internetCallback: InternetStatusCallback,
-        expectedHttpCode: Int
-    ): Callback {
-        return object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                internetCallback(NO_INTERNET)
-                Log.e("INTERNET STATUS", "FAILURE, ${e.message}")
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                val internetStatus =
-                    resolveProbeResult(response, expectedHttpCode)
-
-                Log.e("INTERNET STATUS", "Http code: ${response.code}")
-                internetCallback(internetStatus)
-            }
-        }
+    companion object {
+        private const val GOOGLE_CONNECTIVITY_CHECK_URL =
+            "https://connectivitycheck.gstatic.com/generate_204"
     }
-
-    private val GOOGLE_CONNECTIVITY_CHECK_URL = "https://connectivitycheck.gstatic.com/generate_204"
 }

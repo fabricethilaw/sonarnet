@@ -1,16 +1,17 @@
 package com.fabricethilaw.sonarnet
 
 import android.content.Context
+import android.content.ContextWrapper
 import com.fabricethilaw.sonarnet.internal.InternetReachability
 import com.fabricethilaw.sonarnet.internal.NetworkInfoResolver
 import com.fabricethilaw.sonarnet.internal.NetworkStateWatcher
 
 /**
- * A singleton to present a simple static interface for making internet connectivity requests
+ * Present an interface for making internet connectivity requests
  * with results such as [InternetStatus], [NetworkType] and [ConnectivityResult]
  *
  */
-class SonarNet private constructor(private val context: Context) {
+class SonarNet(private val context: Context) {
 
 
     /**
@@ -56,8 +57,8 @@ class SonarNet private constructor(private val context: Context) {
 
 
     private val networkStateWatcher by lazy {
-        NetworkStateWatcher.with(
-            context,
+        NetworkStateWatcher(
+            ContextWrapper(context.applicationContext),
             networkInfoResolver,
             internetReachability
         )
@@ -67,18 +68,24 @@ class SonarNet private constructor(private val context: Context) {
     companion object {
 
         /**
-         * A simple static method that uses a cleartext Http probe to reach a known lightweight destination,
+         * A static method that uses a cleartext Http probe to reach a known lightweight destination,
          * and invoking the [InternetStatusCallback] with the result.
-         * The process is a mere http request and is not attached to a lifecycle event.
+         * The process is a mere http request.
          */
         fun ping(internetStatusCallback: InternetStatusCallback) {
             internetReachability.ping(internetStatusCallback)
         }
 
+        /**
+         * A suspendable function that uses a cleartext Http probe to reach a known lightweight destination,
+         * and directly returns the result.
+         * The process is a mere http request.
+         */
+        suspend fun ping() = internetReachability.ping()
+
         private val networkInfoResolver by lazy { NetworkInfoResolver() }
 
         private val internetReachability by lazy { InternetReachability() }
-
 
         @Volatile
         private var instance: SonarNet? = null
@@ -89,6 +96,7 @@ class SonarNet private constructor(private val context: Context) {
          * and will not be started or stopped based on lifecycle events.
          *
          */
+        @Deprecated("Use SonarNet class constructor instead in order to avoid memory leak).", ReplaceWith("SonarNet(context)"))
         fun with(
             context: Context
         ): SonarNet {
@@ -98,5 +106,15 @@ class SonarNet private constructor(private val context: Context) {
                 }
             }
         }
+
+        /**
+         * Performs an action only if Internet is available
+         */
+        fun runWithInternet(action: () -> Unit) {
+            ping {
+                if (it == InternetStatus.INTERNET) action.invoke()
+            }
+        }
+
     }
 }

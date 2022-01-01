@@ -1,6 +1,7 @@
 package com.fabricethilaw.sonarnet.internal
 
 import android.content.Context
+import android.content.ContextWrapper
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
@@ -10,12 +11,17 @@ import com.fabricethilaw.sonarnet.ConnectivityResult
 import com.fabricethilaw.sonarnet.NetworkType
 import com.fabricethilaw.sonarnet.internal.interfaces.InternetReachabilityInterface
 import com.fabricethilaw.sonarnet.internal.interfaces.NetworkInfoInterface
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 /**
  *
  */
-internal class NetworkStateWatcher private constructor(
-    private val context: Context,
+internal class NetworkStateWatcher(
+    private val contextWrapper: ContextWrapper,
     private val resolveNetworkInfo: NetworkInfoInterface,
     private val reachability: InternetReachabilityInterface
 ) {
@@ -26,8 +32,12 @@ internal class NetworkStateWatcher private constructor(
     @Volatile
     private lateinit var callback: ConnectivityCallback
 
+    private val job = CoroutineScope(Dispatchers.IO)
+
+    private val networkStateFlow = MutableStateFlow(-1)
+
     private val cm: ConnectivityManager by lazy {
-        context.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE)
+        contextWrapper.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE)
                 as ConnectivityManager
     }
 
@@ -36,6 +46,11 @@ internal class NetworkStateWatcher private constructor(
      * And also verify whether you're offline.
      */
     fun startWatching(callback: ConnectivityCallback) {
+        job.launch {
+            networkStateFlow.collectLatest {
+                if(it != -1) updateConnectivityResult()
+            }
+        }
 
         if (!networkNotificationIsEnabled) {
             val networkRequest = NetworkRequest.Builder().build()
@@ -44,6 +59,7 @@ internal class NetworkStateWatcher private constructor(
                 this.callback = callback
                 networkNotificationIsEnabled = true
             } catch (e: Exception) {
+
             }
         }
 
@@ -83,17 +99,23 @@ internal class NetworkStateWatcher private constructor(
 
         override fun onLost(network: Network) {
             super.onLost(network)
-            updateConnectivityResult()
+            job.launch {
+                networkStateFlow.emit(0)
+            }
         }
 
         override fun onAvailable(network: Network) {
             super.onAvailable(network)
-            updateConnectivityResult()
+            job.launch {
+                networkStateFlow.emit(1)
+            }
         }
 
         override fun onUnavailable() {
             super.onUnavailable()
-            updateConnectivityResult()
+            job.launch {
+                networkStateFlow.emit(2)
+            }
         }
 
 
@@ -102,7 +124,9 @@ internal class NetworkStateWatcher private constructor(
             networkCapabilities: NetworkCapabilities
         ) {
             super.onCapabilitiesChanged(network, networkCapabilities)
-            updateConnectivityResult()
+            job.launch {
+                networkStateFlow.emit(3)
+            }
         }
     }
 
@@ -136,25 +160,6 @@ internal class NetworkStateWatcher private constructor(
             resolveNetworkInfo.networkIsWifi(cm) -> NetworkType.Wifi
             resolveNetworkInfo.networkIsEthernet(cm) -> NetworkType.Ethernet
             else -> NetworkType.Unknown
-        }
-    }
-
-
-    companion object {
-
-        @Volatile
-        private var instance: NetworkStateWatcher? = null
-        fun with(
-            context: Context, resolveNetworkInfo: NetworkInfoInterface,
-            reachability: InternetReachabilityInterface
-        ): NetworkStateWatcher {
-            synchronized(this) {
-                return instance ?: NetworkStateWatcher(
-                    context, resolveNetworkInfo, reachability
-                ).also {
-                    instance = it
-                }
-            }
         }
     }
 

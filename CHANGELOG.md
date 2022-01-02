@@ -1,5 +1,15 @@
 # Changelog
 
+v1.0.0 - 2021-01-02
+
+* Rebuilt the library internal package
+* New functions
+* Removed Okhttp dependency  
+* Unit tests  
+* upgrade gradle
+
+---
+
 v0.0.3 - 2020-11-03
 
 * Upgraded dependencies 

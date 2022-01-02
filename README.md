@@ -1,4 +1,4 @@
-# SonarNet - [Migrating from Jcenter to Github releases]
+# SonarNet
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/99c6454342b44241b7b2abb6a70647b0)](https://app.codacy.com/gh/fabricethilaw/sonarnet?utm_source=github.com&utm_medium=referral&utm_content=fabricethilaw/sonarnet&utm_campaign=Badge_Grade)
 [![Maintainability](https://api.codeclimate.com/v1/badges/8c44053197903e4669af/maintainability)](https://codeclimate.com/github/fabricethilaw/sonarnet/maintainability)
@@ -29,24 +29,12 @@ SonarNet wraps the ConnectivityManager and seeks to let your app replicate the A
 
 ## Usage
 
-Add this to your project's build.gradle file :
-
-```gradle
- repositories {
-        
-        maven {
-            url  "https://dl.bintray.com/fabricethilaw/sonarnet"
-        }
-    }
-    
-```
-
 Add this to your module's `build.gradle` file:
 
  ```gradle
 dependencies {
   
-  implementation 'com.fabricethilaw.sonarnet:core:0.0.3'
+  implementation 'com.fabricethilaw.sonarnet:sonarnet:1.0.0'
 }
 
 ```
@@ -91,7 +79,7 @@ A notification from ConnectivityCallback provides knowledge about `InternetStatu
      }
 
   // register the callback
- SonarNet.with(context).registerConnectivityCallback(connectivityCallback)
+ SonarNet(context).registerConnectivityCallback(connectivityCallback)
  
 ```
 
@@ -99,7 +87,7 @@ When you no longer want to receive updates on connectivity events :
 
 ```kotlin
 // unregister the callback
- SonarNet.with(context).unregisterConnectivityCallback()
+ SonarNet(context).unregisterConnectivityCallback()
 
 ```
 

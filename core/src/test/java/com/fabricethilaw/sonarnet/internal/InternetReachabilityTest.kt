@@ -74,13 +74,4 @@ class InternetReachabilityTest : TestCase() {
             InternetStatus.CAPTIVE_PORTAL
         )
     }
-
-
-    fun testPing() {}
-
-    fun testTestPing() {}
-
-    fun testMakeProbeRequest() {}
-
-
 }

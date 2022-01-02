@@ -6,6 +6,7 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
+import android.util.Log
 import com.fabricethilaw.sonarnet.ConnectivityCallback
 import com.fabricethilaw.sonarnet.ConnectivityResult
 import com.fabricethilaw.sonarnet.NetworkType
@@ -59,7 +60,7 @@ internal class NetworkStateWatcher(
                 this.callback = callback
                 networkNotificationIsEnabled = true
             } catch (e: Exception) {
-
+                Log.e("Sonarnet", e.toString())
             }
         }
 
@@ -131,12 +132,8 @@ internal class NetworkStateWatcher(
     }
 
     private fun updateConnectivityResult() {
-        if (networkNotificationIsEnabled) {
-
-            if (this::callback.isInitialized) {
-                provideConnectivityResult(callback)
-            }
-
+        if (networkNotificationIsEnabled && this::callback.isInitialized) {
+            provideConnectivityResult(callback)
         }
     }
 

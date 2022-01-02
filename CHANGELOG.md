@@ -2,11 +2,11 @@
 
 v1.0.0 - 2021-01-02
 
-* Rebuilt the library internal package
-* New functions
-* Removed Okhttp dependency  
+* Improved the library internal package
+* A new feature added
+* Removed Okhttp dependency
 * Unit tests  
-* upgrade gradle
+* Upgraded gradle and Kotlin version
 
 ---
 

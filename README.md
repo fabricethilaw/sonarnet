@@ -1,5 +1,7 @@
 # SonarNet
 
+
+[![](https://jitpack.io/v/fabricethilaw/sonarnet.svg)](https://jitpack.io/#fabricethilaw/sonarnet) 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/99c6454342b44241b7b2abb6a70647b0)](https://app.codacy.com/gh/fabricethilaw/sonarnet?utm_source=github.com&utm_medium=referral&utm_content=fabricethilaw/sonarnet&utm_campaign=Badge_Grade)
 [![Maintainability](https://api.codeclimate.com/v1/badges/8c44053197903e4669af/maintainability)](https://codeclimate.com/github/fabricethilaw/sonarnet/maintainability)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
@@ -18,24 +20,41 @@ An open-source Android library providing a better implementation of Internet�
 
 - [x] Detect when device has joined a network that has no Internet access.
 - [x] Detect when connected to a router with captive portal
-- [x] Be notified about changes in Internet connectivity.
 
-## How it works
+## How it works 
 
-The classic ConnectivityManager's methods tell whether there is a network interface capable to *allow for Intrernet access*. But generally this is not enough to guarantee that there is true Internet access when connected to a network. SonarNet's goal is to solve this.
+SonarNet wraps the ConnectivityManager and lets your app detect true Internet access, not just if the device has joinded a network. So when ConnectivityManager detects Wi-Fi or Cellular network, SonarNet uses a tiny HTTP probe to a known URL (such as `connectivitycheck.gstatic.com`), to detect whether there is true Internet access, or whether a captive portal is preventing the device to access Internet.
 
-SonarNet wraps the ConnectivityManager and seeks to let your app replicate the Android OS means of detecting Internet network. So, when ConnectivityManager detects Wi-Fi or Cellular network, SonarNet uses a cleartext HTTP probe to a known URL (such as `connectivitycheck.gstatic.com`), to detect whether there is true Internet access, or whether a captive portal is intercepting the connections.
+## Add Sonarnet to your project [![](https://jitpack.io/v/fabricethilaw/sonarnet.svg)](https://jitpack.io/#fabricethilaw/sonarnet) 
 
-## Usage
+Step 1: Add in your root `build.gradle` at the end of repositories:
 
-Add this to your module's `build.gradle` file:
+```gradle
+   allprojects {
+    repositories {
+       maven { url 'https://jitpack.io' }
+    }
+   }
+ 
+ ```
+ 
+ or if there is (the new) `dependencyResolutionManagement` in settings.gradle :
+ 
+```gradle
+   dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+  }
+```
 
+Step 2: Add the dependency
+ 
  ```gradle
-dependencies {
-  
-  implementation 'com.fabricethilaw.sonarnet:sonarnet:1.0.0'
-}
-
+    dependencies {
+      implementation 'com.github.fabricethilaw:sonarnet:1.0.0'
+    }
 ```
 
 ## Check Internet status
@@ -43,17 +62,35 @@ dependencies {
 Usable in any class.
 
 ```kotlin
-// Detect that INTERNET is available
+// Detect that INTERNET is available. Get the result from a callback
 SonarNet.ping { result ->
     // check result
     when(result) {
         InternetStatus.INTERNET -> {}
         InternetStatus.NO_INTERNET -> {}
         InternetStatus.CAPTIVE_PORTAL -> {}
-        }
+     }
+}
+```
+
+You can also call Ping as a suspending function :
+```kotlin
+val internetStatus: InternetStatus = SonarNet.ping()
+if(internetStatus == INTERNET) {
+  // Do something
+} else {
+  // Proceed otherwise
 }
 
 ```
+
+Here is a idiom that enables to perform an action only if internet is available:
+```kotlin
+SonarNet.runWithInternet {
+           // block of logic
+        }
+ ```
+
 
 **Note**: In order to perform network operations, the following permissions must be added into your application `AndroidManifest.xml` :
 
